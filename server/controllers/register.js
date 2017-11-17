@@ -1,12 +1,12 @@
-const config = require('../config')
+const { mysql: config } = require('../config')
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  host: 'config.CONF.host',
-  user: 'config.CONF.user',
-  password: 'config.CONF.pass',
+  host: config.host,
+  user: config.user,
+  password: config.pass,
   database: 'myUsers',
-  port: 'config.CONF.port'
+  port: config.port
 })
 //connection.connect();
 /*var connection = mysql.createConnection({
@@ -23,12 +23,23 @@ async function get (ctx, next) {
     // const { signature, timestamp, nonce, echostr } = ctx.query
     // if (checkSignature(signature, timestamp, nonce)) ctx.body = echostr
     // else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  console.log(connection);
+  connection.connect();
+  var myUsersGetSql = "SELECT * FROM weapp_users";
+  connection.query(myUsersGetSql, function (err, result) {
+    if (err) console.log('[SELECT ERR]-', err.message);
+    ctx.state.data = {result:result};
+    ctx.response.body = { result: result };
+    console.log("数据库查询结果：");
+    console.log(result);
+    connection.end();
+  })
 }
 
 async function post (ctx, next) {
     // 检查签名，确认是微信发出的请求
-    const { signature, timestamp, nonce } = ctx.query
-    if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+    // const { signature, timestamp, nonce } = ctx.query
+    // if (!checkSignature(signature, timestamp, nonce)) ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
 
     /**
      * 解析微信发送过来的请求体
@@ -37,13 +48,7 @@ async function post (ctx, next) {
     // const body = ctx.request.body;
     // ctx.body = mysql('weapp_users').select('*');
     //mysql('db_name').insert();
-    connection.connect();
-    var myUsersGetSql = "SELECT * FROM weapp_users";
-    connection.query(myUsersGetSql, function (err, result) {
-      if (err) console.log('[SELECT ERR]-', err.message);
-      ctx.body = result;
-      console.log(result);
-    })
+    
     /*connection.connect();
     var addSql = 'INSERT INTO weapp_users(studentId,name,school,department,telephone,picurl) VALUES(?,?,?,?,?,?)';
     var addSqlParams = ['body.ID', 'body.userName', 'body.userSchool', 'body.userClass', 'phoneNumber', 'body.studentCard'];

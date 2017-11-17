@@ -21,7 +21,16 @@ var config = {
         tunnelUrl: `${host}/weapp/tunnel`,
 
         // 上传图片接口
-        uploadUrl: `${host}/weapp/upload`
+        uploadUrl: `${host}/weapp/upload`,
+
+        // 用户注册接口
+        registerUrl: `${host}/weapp/register`,
+
+        // 用户新增测试接口
+        demoUrl: `${host}/weapp/demo`,
+
+        // 用户获取注册信息接口
+        userInfoUrl: `${host}/weapp/userInfo`
     }
 };
 

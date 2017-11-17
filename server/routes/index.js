@@ -18,6 +18,7 @@ router.get('/user', validationMiddleware, controllers.user)
 
 // 用户自己增加的
 router.get('/demo', controllers.demo)
+router.get('/userInfo', controllers.getWxUser)
 //用户注册
 router.get('/register', controllers.register.get)
 router.post('/register', controllers.register.post)

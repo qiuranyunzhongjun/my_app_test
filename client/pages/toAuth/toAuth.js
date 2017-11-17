@@ -29,14 +29,15 @@ Page({
 
           //等待认证获取详情
           wx.request({
-            url: config.service.registerUrl,
+            url: config.service.userInfoUrl,
             header: {
               'content-type': 'application/json'
             },
-            method: 'POST',
+            method: 'GET',
             data: formData,
             success: function (res) {
-              console.log("注册成功");
+              console.log(res.data);
+              console.log("查询成功");
             }
           });
     }
