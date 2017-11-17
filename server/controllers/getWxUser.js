@@ -1,25 +1,64 @@
 const { mysql: config } = require('../config')
 var mysql = require('mysql');
+var async = require('async');
+var connection = mysql.createConnection({
+  host: config.host,
+  user: config.user,
+  password: config.pass,
+  database: 'myUsers',
+  port: config.port
+})
 
-module.exports = ctx => {
-  var connection = mysql.createConnection({
-    host: config.host,
-    user: config.user,
-    password: config.pass,
-    database: 'myUsers',
-    port: config.port
-  })
-  connection.connect();
+async function get() {
+  // const { signature, timestamp, nonce, echostr } = ctx.query
+  // if (checkSignature(signature, timestamp, nonce)) ctx.body = echostr
+  // else ctx.body = 'ERR_WHEN_CHECK_SIGNATURE'
+  var res = {me:"空"};
+  await console.log(connection);
+  await connection.connect();
   var myUsersGetSql = "SELECT * FROM weapp_users";
-  connection.query(myUsersGetSql, function (err, result) {
+  await connection.query(myUsersGetSql, function (err, result) {
     if (err) console.log('[SELECT ERR]-', err.message);
-    ctx.state.data = {
-      msg: 'Hello World',
-      userData : result
-    }
+    res = result;
     console.log("数据库查询结果：");
     console.log(result);
     connection.end();
   })
-  
+  await  console.log(res)
+  return res;
+}
+function get1() {
+  var promise = new Promise(function (resolve, reject) {
+    
+    connection.connect();
+    connection.query(
+      "SELECT * FROM weapp_users",
+      function selectCb(err, results) {
+        if (results) {
+          console.log(results);
+          //resolve(results);
+          resolve(results);
+        }
+        if (err) {
+          console.log(err);
+        }
+        connection.end();
+      }
+    );
+  });
+  promise.then(function (value) {
+    console.log(value);
+    return value;
+    // success
+  }, function (value) {
+    // failure
+  });
+  return promise;
+};
+module.exports = async ctx => {
+  // 获取上传之后的结果
+  // 具体可以查看：
+  const data = await get1()
+
+  ctx.state.data = data
 }
