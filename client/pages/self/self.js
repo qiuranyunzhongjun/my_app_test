@@ -1,31 +1,33 @@
-var utils = require('../../utils/util.js');
+var util = require('../../utils/util.js')
 var qcloud = require('../../vendor/wafer2-client-sdk/index')
 var config = require('../../config')
+var app = getApp()
 //self.js 个人中心首页
 //获取应用实例
 var app = getApp()
 Page({
   data: {
-        userInfo: {},
-        certificationOk: null,
-
-        logged: false,
-        takeSession: false,
-        requestResult: ''
+      userInfo: {},
+      myInfo:null,
+      openID:null,
+      logged: false,
+      takeSession: false,
+      requestResult: '原始消息'
     },
+
+
   // 用户登录示例
   login_weixin: function () {
     if (this.data.logged) return
 
-    utils.showBusy('正在登录')
+    util.showBusy('正在登录')
     var that = this
 
     // 调用登录接口
     qcloud.login({
       success(result) {
         if (result) {
-          utils.showSuccess('登录成功')
-          app.globalData.userInfo = result,
+          util.showSuccess('登录成功')
           that.setData({
             userInfo: result,
             logged: true
@@ -34,18 +36,33 @@ Page({
           // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
           qcloud.request({
             url: config.service.requestUrl,
-            login: true,
             success(result) {
-              utils.showSuccess('登录成功')
-              app.globalData.userInfo = result,
+              util.showSuccess('登录成功')
               that.setData({
                 userInfo: result.data.data,
                 logged: true
               })
+              app.globalData.userInfo = result.data.data
+              that.openTunnel()
+              // setTimeout(function () {
+              //   that.sendMessage()
+              // }, 1000);
+              // setTimeout(function () {
+              //   //console.log("看看有哪些结果")
+              //   console.log(that.data.requestResult)
+              //   that.setData({
+              //     openID: that.data.requestResult.who.openId
+              //   })
+              //   app.globalData.openId = that.data.requestResult.who.openId
+              //   that.doRequest()
+              // }, 2000);
+              // setTimeout(function () {
+              //   that.closeTunnel()
+              // }, 5000);
             },
 
             fail(error) {
-              utils.showModel('请求失败', error)
+              util.showModel('请求失败', error)
               console.log('request fail', error)
             }
           })
@@ -53,53 +70,134 @@ Page({
       },
 
       fail(error) {
-        utils.showModel('登录失败', error)
+        util.showModel('登录失败', error)
         console.log('登录失败', error)
       }
     })
   },
+
     onPullDownRefresh :function(){
-        utils.getUserData();
-        wx.stopPullDownRefresh()
+      console.log(this.requestResult)
     },
     
     onLoad: function (options) {
         var that = this;
-        utils.getUserData();  
-        that.setData({
-            userInfo: app.globalData.userInfo,
-            certificationOk: app.globalData.certificationOk,
-        })
-        
+        this.login_weixin();
     },
     
+    openTunnel: function () {
+      //console.log("打开信道中")
+      var that = this
+      // 创建信道，需要给定后台服务地址
+      var tunnel = this.tunnel = new qcloud.Tunnel(config.service.tunnelUrl)
+
+      // 监听信道内置消息，包括 connect/close/reconnecting/reconnect/error
+      tunnel.on('connect', () => {
+        console.log('WebSocket 信道已连接')
+        this.setData({ tunnelStatus: 'connected' })
+        setTimeout(function () {
+          that.sendMessage()
+        }, 500);
+      })
+
+      tunnel.on('close', () => {
+        console.log('WebSocket 信道已断开')
+        this.setData({ tunnelStatus: 'closed' })
+      })
+
+      tunnel.on('reconnecting', () => {
+        console.log('WebSocket 信道正在重连...')
+      })
+
+      tunnel.on('reconnect', () => {
+        console.log('WebSocket 信道重连成功')
+      })
+
+      tunnel.on('error', error => {
+        console.error('信道发生错误：', error)
+      })
+
+      // 监听自定义消息（服务器进行推送）
+      tunnel.on('speak', speak => {
+        console.log('收到说话消息：', speak)
+        that.setData({
+          //requestResult : speak,
+          openID: speak.who.openId,
+        }) 
+        app.globalData.openId = speak.who.openId
+        that.doRequest()
+      })
+
+      // 打开信道
+      tunnel.open()
+      //console.log("信道打开")
+
+      this.setData({ tunnelStatus: 'connecting' })
+    },
+    /**
+    * 向服务器发送消息获取用户唯一标识符openId
+    */
+    sendMessage() {
+      console.log("准备接受用户openID，此时this.data.tunnelStatus=" + this.data.tunnelStatus + "并且this.tunnel=" + this.tunnel + "并且this.tunnel.isActive()=" + this.tunnel.isActive())
+      if (!this.data.tunnelStatus || !this.data.tunnelStatus === 'connected') return
+      // 使用 tunnel.isActive() 来检测当前信道是否处于可用状态
+      if (this.tunnel && this.tunnel.isActive()) {
+        // 使用信道给服务器推送「speak」消息
+        //console.log("真的准备接受用户openID")
+        this.tunnel.emit('speak', {
+          'word': '' + new Date(),
+        });
+        //console.log("接受用户openID的请求发送完了")
+      }
+    },
+
+    /**
+     * 关闭已经打开的信道
+     */
+    closeTunnel() {
+      if (this.tunnel) {
+        this.tunnel.close();
+      }
+      //util.showBusy('信道连接中...')
+      console.log("信道关闭")
+      this.setData({ tunnelStatus: 'closed' })
+    },
+
+    doRequest: function () {
+      util.showBusy('请求中...')
+      var that = this
+      console.log("请求" + that.data.openID)
+      var options = {
+        url: config.service.userInfoUrl,
+        data: {openId:that.data.openID},
+        success(result) {
+          util.showSuccess('成功获取信息')
+          console.log('request success', result)
+          console.log('result.data[0]', result.data.data[0])
+          that.setData({
+            myInfo: result.data.data[0]
+          })
+          that.closeTunnel()
+        },
+        fail(error) {
+          util.showModel('请求失败', error);
+          console.log('request fail', error);
+        }
+      }
+      if (this.data.takeSession) {  // 使用 qcloud.request 带登录态登录
+        qcloud.request(options)
+      } else {    // 使用 wx.request 则不带登录态
+        wx.request(options)
+      }
+    },
     onReady:function(){
         var that = this;
-        if (that.data.userInfo){
-            if (that.data.certificationOk == 0){
-                wx.showModal({
-                    title: '认证提醒',
-                    content: '您还没有认证',
-                    cancelText: "下次再说",
-                    cancelColor: "",
-                    success: function (res) {
-                        if (res.confirm) {
-                            wx.navigateTo({
-                                url: '../toAuth/toAuth',
-                            })
-                        } else if (res.cancel) {
-                            console.log('用户点击取消')
-                        }
-                    }
-                })
-            }
-            
-        }
+        
     },
     onShow: function () {
         var that = this;
-        console.log(that+"==================")
-        utils.checkSettingStatu(that);
+        console.log(that+"渲染成功，没啥卵用")
+        
     },
     //事件处理函数
     bindViewTap: function () {
@@ -111,25 +209,22 @@ Page({
     login:function(){
         //认证信息及个人信息切换
         var that = this;
-        if (that.data.certificationOk == 2){
-            //个人信息页面
-            wx.navigateTo({
-                url: '../selfInfo/selfInfo',
-            })
-        }else{
+        // if (that.data.myInfo){
+        //     //个人信息页面
+        //     wx.navigateTo({
+        //         url: '../selfInfo/selfInfo',
+        //     })
+        // }else{
             //去认证页面
             wx.navigateTo({
                 url: '../toAuth/toAuth',
             })
-        }
+        // }
         
     },
 
     openAccount: function (event) {
-        //打开我的账户
-        wx.navigateTo({
-            url: '../myAccount/myAccount',
-        })
+      console.log(this.requestResult)
     },
 
     openBookList:function(event){

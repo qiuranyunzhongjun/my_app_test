@@ -1,13 +1,7 @@
 const { mysql: config } = require('../config')
 var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-  host: config.host,
-  user: config.user,
-  password: config.pass,
-  database: 'myUsers',
-  port: config.port
-})
+
 //connection.connect();
 /*var connection = mysql.createConnection({
   host: '${config.port.mysql.host }',
@@ -48,10 +42,19 @@ async function post (ctx, next) {
     // const body = ctx.request.body;
     // ctx.body = mysql('weapp_users').select('*');
     //mysql('db_name').insert();
-    
-    /*connection.connect();
-    var addSql = 'INSERT INTO weapp_users(studentId,name,school,department,telephone,picurl) VALUES(?,?,?,?,?,?)';
-    var addSqlParams = ['body.ID', 'body.userName', 'body.userSchool', 'body.userClass', 'phoneNumber', 'body.studentCard'];
+  var connection = mysql.createConnection({
+    host: config.host,
+    user: config.user,
+    password: config.pass,
+    database: 'myUsers',
+    port: config.port
+  })
+    connection.connect();
+    var addSql = 'INSERT INTO weapp_users(studentId,name,weixin,school,department,telephone,picurl,description) VALUES(?,?,?,?,?,?,?,?)';
+    console.log(ctx.request);
+    var that = ctx.request.body;
+    var addSqlParams = [that.studentId, that.name, that.weixin, that.school, that.department, that.telephone, that.picurl, that.description];
+    console.log(addSqlParams);
     connection.query(addSql, addSqlParams, function (err, result) {
       if (err) {
         ctx.body = '[INSERT ERROR] - ' + err.message;
@@ -59,8 +62,9 @@ async function post (ctx, next) {
         return;
       }
       ctx.body = result;
+      console.log(result);
       connection.end();
-    });*/
+    });
 }
 module.exports = {
     post,

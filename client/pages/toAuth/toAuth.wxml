@@ -6,8 +6,8 @@
             <view style='font-size:15px;margin-top:5px;'>
                 请上传校园卡或者教工卡
             </view>
-            <block wx:if="{{pictureFiles}}">
-                <image src="{{pictureFiles}}" class="image" mode="aspectFit" bindtap="pictureView" bindlongtap="changePicture"></image>
+            <block wx:if="{{imgUrl}}">
+                <image src="{{imgUrl}}" class="image" mode="aspectFit" bindtap="previewImg" bindlongtap="changePicture"></image>
             </block>
 
             <block wx:else>

@@ -9,7 +9,7 @@
             {{userInfo.nickName?userInfo.nickName:"点击左侧头像登录"}}
         </view>
         <view class="subtitle" id="shenfen">
-            {{userInfo.certificationOk == 2?"已认证":"未认证,点击上方昵称认证"}}
+            {{myInfo ? myInfo.studentId+myInfo.name:"未认证,点击上方昵称认证"}}
         </view>
     </view>
     <!--<image src="../../images/personal_icon_arrow.png" class="person_arrow"></image>-->
