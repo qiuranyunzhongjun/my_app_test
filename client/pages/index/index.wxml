@@ -1,5 +1,4 @@
-<import src="../templates/templates.wxml"/>
-<import src="../templates/templates.wxss"/>
+
 <!--index.wxml-->
 <!-- <loading hidden="{{ !loading }}">加载中...</loading>  -->
 <view class="container" style="background:#f4f4f4">
@@ -36,9 +35,7 @@
     <!--筛选结束-->
     <!--图书列表-->
     <view class="book-list">
-        <view wx:for="{{bookObj}}" wx:for-index="index" wx:for-item="book">
-            <template is="indexList" data="{{book}}"/>
-        </view>
+        
     </view>
     <!--图书列表 end-->
     <!--分类 start-->

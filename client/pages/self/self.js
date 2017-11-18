@@ -44,21 +44,6 @@ Page({
               })
               app.globalData.userInfo = result.data.data
               that.openTunnel()
-              // setTimeout(function () {
-              //   that.sendMessage()
-              // }, 1000);
-              // setTimeout(function () {
-              //   //console.log("看看有哪些结果")
-              //   console.log(that.data.requestResult)
-              //   that.setData({
-              //     openID: that.data.requestResult.who.openId
-              //   })
-              //   app.globalData.openId = that.data.requestResult.who.openId
-              //   that.doRequest()
-              // }, 2000);
-              // setTimeout(function () {
-              //   that.closeTunnel()
-              // }, 5000);
             },
 
             fail(error) {
@@ -82,6 +67,7 @@ Page({
     
     onLoad: function (options) {
         var that = this;
+        wx.setNavigationBarTitle({ title: '云中君' }); 
         this.login_weixin();
     },
     
@@ -209,17 +195,17 @@ Page({
     login:function(){
         //认证信息及个人信息切换
         var that = this;
-        // if (that.data.myInfo){
-        //     //个人信息页面
-        //     wx.navigateTo({
-        //         url: '../selfInfo/selfInfo',
-        //     })
-        // }else{
+        if (that.data.myInfo){
+            //个人信息页面
+            wx.navigateTo({
+                url: '../selfInfo/selfInfo',
+            })
+        }else{
             //去认证页面
             wx.navigateTo({
                 url: '../toAuth/toAuth',
             })
-        // }
+         }
         
     },
 
