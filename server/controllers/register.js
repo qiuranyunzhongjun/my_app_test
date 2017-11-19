@@ -1,5 +1,5 @@
 const { mysql: config } = require('../config')
-var mysql = require('mysql');
+var mysql = require('../tools/operatedb')
 
 
 //connection.connect();
@@ -39,38 +39,15 @@ async function post (ctx, next) {
      * 解析微信发送过来的请求体
      * 可查看微信文档：https://mp.weixin.qq.com/debug/wxadoc/dev/api/custommsg/receive.html#接收消息和事件
      */
-    // const body = ctx.request.body;
-    // ctx.body = mysql('weapp_users').select('*');
-    //mysql('db_name').insert();
-  var connection = mysql.createConnection({
-    host: config.host,
-    user: config.user,
-    password: config.pass,
-    database: 'myUsers',
-    port: config.port
-  })
-    connection.connect();
     console.log(ctx.request);
     var that = ctx.request.body;
     var userDeleteSql = "DELETE FROM weapp_users WHERE weixin = ?";
     var userDeleteSql_Params = [that.weixin];
-    connection.query(userDeleteSql, userDeleteSql_Params, function (err, result) {
-      if (err) console.log('[DELETE ERR]-', err.message);
-      console.log(result);
-    })
+    mysql.operateSql('myUsers', userDeleteSql, userDeleteSql_Params)
+
     var addSql = 'INSERT INTO weapp_users(studentId,name,weixin,school,department,telephone,picurl,description) VALUES(?,?,?,?,?,?,?,?)';
     var addSqlParams = [that.studentId, that.name, that.weixin, that.school, that.department, that.telephone, that.picurl, that.description];
-    console.log(addSqlParams);
-    connection.query(addSql, addSqlParams, function (err, result) {
-      if (err) {
-        ctx.body = '[INSERT ERROR] - ' + err.message;
-        connection.end();
-        return;
-      }
-      ctx.body = result;
-      console.log(result);
-      connection.end();
-    });
+    mysql.operateSql('myUsers', addSql, addSqlParams)
 }
 module.exports = {
     post,
