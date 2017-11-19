@@ -22,16 +22,18 @@ Page({
           //提交信息
         var that = this;
         that.setData({
-          loading : false
+          loading : false,
+          userInfo: app.globalData.myInfo
         }) 
-        // this.setData({
-        //   userName: "yawnmp",
-        //   userSchool: "北航",
-        //   userClass: "6",
-        //   phoneNumber: "13240303107",
-        //   studentCard: "12005048",
-        //   imgUrl: "http://www.nipic.com/show/3/109/39a392ea9afa1e7b.html",
-        // })  
+        this.setData({
+          userName: app.globalData.myInfo.name,
+          userSchool: app.globalData.myInfo.school,
+          userClass: app.globalData.myInfo.department,
+          phoneNumber: app.globalData.myInfo.telephone,
+          studentCard: app.globalData.myInfo.studentId,
+          imgUrl: app.globalData.myInfo.picurl,
+        })  
+        console.log(this.userInfo)
         // this.toAuth();
     },
     // 上传图片接口
@@ -41,7 +43,7 @@ Page({
       // 选择图片
       wx.chooseImage({
         count: 1,
-        sizeType: ['compressed'],
+        sizeType: ['compressed','original'],
         sourceType: ['album', 'camera'],
         success: function (res) {
           util.showBusy('正在上传')
@@ -55,7 +57,7 @@ Page({
 
             success: function (res) {
               util.showSuccess('上传图片成功')
-              //console.log(res)
+              console.log(res)
               res = JSON.parse(res.data)
               console.log(res.data.imgUrl)
               that.setData({
@@ -88,7 +90,7 @@ Page({
         itemList: ['更改图片', '删除'],
         success: function (res) {
           if (res.tapIndex == "0") {
-            this.chooseImage();
+            that.chooseImage();
           } else if (res.tapIndex == "1") {
             that.setData({
               imgUrl: null,
@@ -110,7 +112,7 @@ Page({
         userName: e.detail.value
       })
     },
-    setName: function (e) {
+    setSchool: function (e) {
       //所在学校
       var that = this;
       that.setData({
@@ -181,6 +183,7 @@ Page({
         data: formData,
         method:"POST",
         success: function (res) {
+          console.log("准备注册")
           console.log(formData)
           console.log(res)
           wx.showToast({
@@ -188,6 +191,7 @@ Page({
             icon: 'success',
             duration: 2000
           })
+          app.globalData.myInfo = formData
         },
         fail: function (error) {
           wx.showToast({

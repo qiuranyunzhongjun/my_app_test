@@ -50,9 +50,15 @@ async function post (ctx, next) {
     port: config.port
   })
     connection.connect();
-    var addSql = 'INSERT INTO weapp_users(studentId,name,weixin,school,department,telephone,picurl,description) VALUES(?,?,?,?,?,?,?,?)';
     console.log(ctx.request);
     var that = ctx.request.body;
+    var userDeleteSql = "DELETE FROM weapp_users WHERE weixin = ?";
+    var userDeleteSql_Params = [that.weixin];
+    connection.query(userDeleteSql, userDeleteSql_Params, function (err, result) {
+      if (err) console.log('[DELETE ERR]-', err.message);
+      console.log(result);
+    })
+    var addSql = 'INSERT INTO weapp_users(studentId,name,weixin,school,department,telephone,picurl,description) VALUES(?,?,?,?,?,?,?,?)';
     var addSqlParams = [that.studentId, that.name, that.weixin, that.school, that.department, that.telephone, that.picurl, that.description];
     console.log(addSqlParams);
     connection.query(addSql, addSqlParams, function (err, result) {

@@ -70,7 +70,12 @@ Page({
         wx.setNavigationBarTitle({ title: '云中君' }); 
         this.login_weixin();
     },
-    
+    onShow: function () {
+      console.log("self.show启动")
+      this.setData({
+        myInfo: app.globalData.myInfo
+      })
+    },
     openTunnel: function () {
       //console.log("打开信道中")
       var that = this
@@ -163,6 +168,7 @@ Page({
           that.setData({
             myInfo: result.data.data[0]
           })
+          app.globalData.myInfo = result.data.data[0]
           that.closeTunnel()
         },
         fail(error) {
@@ -178,11 +184,6 @@ Page({
     },
     onReady:function(){
         var that = this;
-        
-    },
-    onShow: function () {
-        var that = this;
-        console.log(that+"渲染成功，没啥卵用")
         
     },
     //事件处理函数

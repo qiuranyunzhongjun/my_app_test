@@ -9,6 +9,7 @@ App({
     },
     globalData: {
       userInfo: null,
+      myInfo:null,
       openId : ''
     },
 })

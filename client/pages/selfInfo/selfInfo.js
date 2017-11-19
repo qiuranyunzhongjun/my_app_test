@@ -12,15 +12,22 @@ Page({
        majorIndex:0,
        //school:new Array("请选择", "河北工业大学", "天津工业大学", "河北经贸大学"),
        //major:new Array("请选择", "工商管理", "网络工程", "软件工程")
-    },
-    onLoad: function () {
-        var that = this;
-        that.doRequest();
-        this.setData({
-            loading: false
-        })
-        wx.setNavigationBarTitle({ title: '云中君' }); 
-    },
+  },
+  onLoad: function () {
+    var that = this;
+    that.doRequest();
+    this.setData({
+      loading: false
+    })
+    wx.setNavigationBarTitle({ title: '云中君' });
+  },
+
+  onShow: function () {
+    console.log("selfInfo.show启动")
+    this.setData({
+      myInfo: app.globalData.myInfo
+    })
+  },
 
     doRequest: function () {
       util.showBusy('请求信息中...')
