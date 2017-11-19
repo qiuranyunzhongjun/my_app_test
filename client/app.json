@@ -1,11 +1,11 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/index1/index1",
     "pages/self/self",
     "pages/selfInfo/selfInfo",
     "pages/toAuth/toAuth",
-    "pages/addCgi/addCgi"
+    "pages/index1/index1",
+    "pages/chat/chat"
   ],
   "window":{
     "backgroundColor":"#F6F6F6",

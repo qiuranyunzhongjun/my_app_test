@@ -43,6 +43,7 @@ Page({
                 logged: true
               })
               app.globalData.userInfo = result.data.data
+              console.log("登陆后请求注册信息")
               that.openTunnel()
             },
 

@@ -15,9 +15,10 @@ Page({
   },
   onLoad: function () {
     var that = this;
-    that.doRequest();
+    //that.doRequest();
     this.setData({
-      loading: false
+      loading: false,
+      myInfo: app.globalData.myInfo
     })
     wx.setNavigationBarTitle({ title: '云中君' });
   },
