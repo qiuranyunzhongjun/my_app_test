@@ -1,0 +1,13 @@
+<!--pages/index/index_study/index_study.wxml-->
+<!--index.wxml-->
+<view class="container">
+<view class="icon">
+<image src='../../images/study_third.png'></image>   约自习
+</view>
+<view class="introduce">XXX向您发出了自习邀请，是否接受？
+</view>
+<view class="buttons">
+<button>进入聊天室</button>
+</view>
+</view>
+

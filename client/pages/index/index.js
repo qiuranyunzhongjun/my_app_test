@@ -1,97 +1,87 @@
-var utils = require('../../utils/util.js');
-
-//index.js
-//获取应用实例
-var screenNum = 3;
-var app = getApp()
+// pages/index/index_wolfman/index_wolfman.js
 Page({
+
+    /**
+     * 页面的初始数据
+     */
     data: {
-        cateisShow: false,
-        activeNum: 1,
-        loading: true,
-        bookObj:null,
+
     },
 
-    //事件处理函数
-    bindViewTap: function () {
-        wx.navigateTo({
-            url: '../logs/logs'
-        })
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function (options) {
+
     },
 
-    onPullDownRefresh: function () {
-        //监听页面刷新
-        this.onLoad()
-        wx.stopPullDownRefresh()
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function () {
+
     },
 
-    onLoad: function () {
-        var that = this;
-       
-        
-    },
-
+    /**
+     * 生命周期函数--监听页面显示
+     */
     onShow: function () {
-        this.onLoad() 
-    },
-    
-    changeTab: function (event) {
-        //切换筛选tab
-        var num = event.target.dataset.id;
-        this.setData({
-            activeNum: num
-        })
+
     },
 
-    screenISBN: function () {
-        wx.getSetting({
-            success(res) {
-                if (res.authSetting['scope.userInfo']) {
-                    //已授权 扫描ISBN
-                    wx.scanCode({
-                        success: (res) => {
-                            if (res.errMsg == "scanCode:ok") {
-                                //扫描成功
-                                if (res.scanType == "EAN_13") {
-                                    //条形码
-                                    var isbnCode = res.result;
-                                    wx.navigateTo({
-                                        url: '../share/share?isbn=' + isbnCode,
-                                    })
-                                } else {
-                                    wx.showToast({
-                                        title: '条形码有误！',
-                                    })
-                                }
-                            } else {
-                                wx.showToast({
-                                    title: '获取数据失败，请稍后重试！',
-                                })
-                            }
-                        }
-                    })
-                }else{
-                    utils.checkSettingStatu();
-                }
-            }
-        })
-        
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide: function () {
+
     },
 
-    detail: function (event) {
-        var bookId = event.currentTarget.dataset.bookid;
-        var canShareId = event.currentTarget.dataset.canshareid;
-        var book_type = event.currentTarget.dataset.type;//type 为1时自营点 为0时C2C
-        //打开详情页
-        wx.navigateTo({
-            url: '../detail/detail?bookId=' + bookId + "&canShareId=" + canShareId + "&book_type=" + book_type,
-        })
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function () {
+
     },
-    
-    togglePtype: function () {
-        //显示分类
-        this.setData({
-            cateisShow: !this.data.cateisShow
-        })
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function () {
+
     },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function () {
+
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage: function () {
+
+    },
+
+    changeToWolfman:function(){
+        wx.redirectTo({
+            url: '../index_wolfman/index_wolfman',})
+    },
+
+    changeToStudy: function(){
+        wx.redirectTo({
+            url: '../index_study/index_study',
+        },
+        )
+    },
+
+    changeToSports: function () {
+        wx.redirectTo({
+            url: '../index_sports/index_sports',
+        },
+        )
+    }
+
+
 })

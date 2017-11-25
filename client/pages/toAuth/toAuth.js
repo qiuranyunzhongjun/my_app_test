@@ -201,5 +201,10 @@ Page({
           })
         }
       })
+    },
+    toIndex: function () {
+      wx.navigateTo({
+        url: '../index/index',
+      })
     }
 })

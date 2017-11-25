@@ -1,6 +1,9 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/index_wolfman/index_wolfman",
+    "pages/index_sports/index_sports",
+    "pages/index_study/index_study",
     "pages/self/self",
     "pages/selfInfo/selfInfo",
     "pages/toAuth/toAuth",

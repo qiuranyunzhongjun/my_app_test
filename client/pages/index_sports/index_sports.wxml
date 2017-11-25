@@ -1,0 +1,11 @@
+<!--index.wxml-->
+<view class="container">
+<view class="icon">
+<image src='../../images/study_second.png'></image>   约运动
+</view>
+<view class="introduce">有人在健身馆邀请你健身，是否接受？
+</view>
+<view class="buttons">
+<button>进入聊天室</button>
+</view>
+</view>

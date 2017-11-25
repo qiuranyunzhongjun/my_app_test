@@ -59,6 +59,9 @@
     <button bindtap="toAuth" style="color:#fff;height:50px;background: #33CCFF;">
         认证
     </button>
+    <button bindtap="toIndex" style="color:#fff;height:50px;background: #33CCFF;">
+        返回首页
+    </button>
 </view>
 </view>
 
