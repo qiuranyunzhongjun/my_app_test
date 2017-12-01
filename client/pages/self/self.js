@@ -69,7 +69,17 @@ Page({
     onLoad: function (options) {
         var that = this;
         wx.setNavigationBarTitle({ title: '云中君' }); 
-        this.login_weixin();
+        
+        if (app.globalData.userInfo==null)
+            this.login_weixin();
+        else {
+          console.log(app.globalData.userInfo)
+          that.setData({
+            logged:true,
+            userInfo: app.globalData.userInfo
+          })
+          console.log(that.data.userInfo)
+        }
     },
     onShow: function () {
       console.log("self.show启动")
@@ -187,12 +197,6 @@ Page({
         var that = this;
         
     },
-    //事件处理函数
-    bindViewTap: function () {
-        wx.navigateTo({
-            url: '../logs/logs'
-        })
-    },
 
     login:function(){
         //认证信息及个人信息切换
@@ -211,49 +215,16 @@ Page({
         
     },
 
-    openAccount: function (event) {
-      console.log(this.requestResult)
+    createActivity: function (event) {
+      wx.navigateTo({
+        url: '../addActivity/addActivity',
+      })
     },
 
-    openBookList:function(event){
-        //打开个人中心图书列表
-        var index = event.currentTarget.dataset.index;
+    openList:function(event){
+        //打开个人活动列表
         wx.navigateTo({
-            url: '../bookList/bookList?index=' + index,
-        })
-    },
-
-    //自营点上传图书
-    uploadPilot: function () {
-        wx.navigateTo({
-            url: '../uploadPilot/uploadPilot'
-        })
-    },
-
-
-    openOpinion:function(){
-        //打开意见反馈
-        wx.navigateTo({
-            url: '../opinion/opinion',
-        })
-    },
-
-    aboutUs:function(){
-        //打开关于我们
-        wx.navigateTo({
-            url: '../aboutUs/aboutUs',
-        })
-    },
-
-    openSetting:function(){
-        wx.navigateTo({
-            url: '../setting/setting',
-        })
-    },
-
-    openCards:function(){
-        wx.navigateTo({
-            url: '../card/card',
+            url: '../chat/chat',
         })
     }
 })

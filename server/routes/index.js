@@ -19,9 +19,11 @@ router.get('/user', validationMiddleware, controllers.user)
 // 用户自己增加的
 router.get('/demo', controllers.demo)
 router.get('/userInfo', controllers.getWxUser)
+router.get('/activitys', controllers.getActivity)
 //用户注册
 router.get('/register', controllers.register.get)
 router.post('/register', controllers.register.post)
+router.post('/addActivity', controllers.addActivity.post)
 
 // --- 图片上传 Demo --- //
 // 图片上传接口，小程序端可以直接将 url 填入 wx.uploadFile 中

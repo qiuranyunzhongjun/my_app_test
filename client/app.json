@@ -1,21 +1,21 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
-    "pages/index_wolfman/index_wolfman",
-    "pages/index_sports/index_sports",
-    "pages/index_study/index_study",
+    "pages/activity/activity",
     "pages/self/self",
     "pages/selfInfo/selfInfo",
     "pages/toAuth/toAuth",
     "pages/index1/index1",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/myAppoint/myAppoint",
+    "pages/addActivity/addActivity"
   ],
-  "window":{
-    "backgroundColor":"#F6F6F6",
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
     "navigationBarTitleText": "Wafer Quick Start",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "selectedColor": "#00c700",
@@ -27,14 +27,8 @@
         "selectedIconPath": "images/index-selected.png"
       },
       {
-        "pagePath": "pages/index1/index1",
-        "text": "腾讯云测试",
-        "iconPath": "images/operate.png",
-        "selectedIconPath": "images/operate-selected.png"
-      },
-      {
         "pagePath": "pages/self/self",
-        "text": "我的借还",
+        "text": "我的信息",
         "iconPath": "images/selfCenter.png",
         "selectedIconPath": "images/selfCenter-selected.png"
       }

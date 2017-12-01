@@ -5,11 +5,12 @@ var config = require('./config')
 App({
     onLaunch: function () {
         qcloud.setLoginUrl(config.service.loginUrl)
-        wx.setNavigationBarTitle({ title: '云中君' }); 
+        wx.setNavigationBarTitle({ title: 'BUAA在线约活动' }); 
     },
     globalData: {
       userInfo: null,
       myInfo:null,
-      openId : ''
+      openId: 'oHTf00Agty4DqVIrBm8P6kZMBmuk',
+      activity:null,
     },
 })

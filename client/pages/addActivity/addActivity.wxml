@@ -68,7 +68,7 @@
      
   </view>
   <view class="buttons">
-  <button bindtap="forSubmit"  class="buttons" type="primary">发起预约</button>
+  <button bindtap="forSubmit"  class="buttons" type="primary">发起活动</button>
 </view>
   
 </form>

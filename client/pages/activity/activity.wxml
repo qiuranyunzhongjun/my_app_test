@@ -1,0 +1,67 @@
+ <view class = "search-title">活动详情</view>
+<view class="container2">
+  <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">活动内容:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.name}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">活动日期:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.date}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">开始时间:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.starttime}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">结束时间:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.endtime}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">预计人数:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.totalPersons}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">当前人数:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.currentPersons}}</text>
+          </view>
+      </view>
+      <view class="weui-cell weui-cell_input" name="num">
+          <view class="weui-cell__hd">
+              <view class="weui-label">活动地点:</view>
+          </view>
+          <view class="weui-cell__bd">
+              <text>{{activity.place}}</text>
+          </view>
+      </view>
+      
+    <view class="second_buttons">
+        <button bindtap="forSubmit" class='buttons' size="default" type="primary" >加入活动
+        </button>
+    </view>
+</view>
+
+</view>

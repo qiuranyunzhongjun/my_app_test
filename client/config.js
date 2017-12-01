@@ -30,7 +30,13 @@ var config = {
         demoUrl: `${host}/weapp/demo`,
 
         // 用户获取注册信息接口
-        userInfoUrl: `${host}/weapp/userInfo`
+        userInfoUrl: `${host}/weapp/userInfo`,
+
+        // 用户增加活动信息信息接口
+        updateActivityUrl: `${host}/weapp//addActivity`,
+
+        // 用户获取活动信息接口
+        activityUrl: `${host}/weapp/activitys`,
     }
 };
 

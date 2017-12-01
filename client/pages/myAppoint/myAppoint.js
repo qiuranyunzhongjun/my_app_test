@@ -1,4 +1,4 @@
-// pages/index/index_wolfman/index_wolfman.js
+// pages/MyAppoint/myAppoint.js
 Page({
 
   /**

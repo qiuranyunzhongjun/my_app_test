@@ -1,0 +1,23 @@
+.buttons button{
+  margin-top:75rpx;
+  background-color:  green;
+  height:90rpx;
+  width:600rpx;
+  line-height: 90rpx;
+  color: white;
+}
+.placeButtons button{
+  height:90rpx;
+  width:100%;
+  color: white;
+  font-family: 微软雅黑  ;
+  position: relative;
+  margin-top: 10rpx;
+  background-color: goldenrod;
+  line-height: 70rpx;
+  font-size: 19px;
+}
+view {
+
+display:block;
+}

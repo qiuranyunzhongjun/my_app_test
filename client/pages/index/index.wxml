@@ -1,38 +1,35 @@
-<!--index.wxml-->
-<!-- <loading hidden="{{ !loading }}">加载中...</loading>  -->
-<view class="container" style="background:#f4f4f4">
 
+<view class="container" style="background:#f4f4f4">
+    <!--筛选开始-->
+    <view class="screen-box">
+        <view class="screen {{activeNum==1?'active':''}}" id="screen1" bindtap="changeTab" data-id="1">所有活动</view>
+        <view class="screen {{activeNum==2?'active':''}}" id="scanner2" bindtap="changeTab" data-id="2">狼人杀</view>
+        <view class="screen {{activeNum==3?'active':''}}" id="scanner3" bindtap="changeTab" data-id="3">约自习</view>
+        <view class="screen {{activeNum==4?'active':''}}" id="scanner4" bindtap="changeTab" data-id="4">去运动</view>
+        <view class="clear-both"></view>
+    </view>
+    <!--筛选结束-->
     <!--活动列表-->
-    <!--狼人杀 start-->
-    <view class="activity-wolfman">
-        <image src='../../images/wolfman.png'  class="wolfman-icon"></image>
-        <view style="width:98%;margin: auto">
-             <text class="wolfman-text"> </text>
-<view class="buttons">
-<button bindtap='changeToWolfman'>约狼人杀</button>
-</view>
-        </view>
+    <view  class="book-list">
+      <scroll-view scroll-y style="height: 480px;">
+        <view>
+          <view wx:for="{{activityShow}}"  wx:key="unique" wx:for-index="index" wx:for-item="activity">
+              <view class="container list">
+                <view class="list-item" id="{{activity.id}}" bindtap="activitydetail">
+                  <image src="{{activity.name=='狼人杀'?'../../images/wolfman.png':activity.name=='跑步'?'../../images/sports.png':'../../images/study_third.png'}}"
+                 class="left"/>
+                  <view class='right'>
+                    <view class="title">
+                      <text class="name">活动日期：{{activity.date}}</text>
+                      <text class='dsc'>{{activity.place}}</text>
+                    </view>
+                  </view>
+                  <button class="time">{{activity.id}}</button>
+                </view>
+              </view>
+          </view>
+      </view>
+    </scroll-view>
     </view>
-    <!--狼人杀 end-->
-     <!--约学习 start-->
-    <view class="activity-study">
-        <image src='../../images/specialty.png'  class="study-icon"></image>
-        <view style="width:98%;margin: auto">
-            <view class="buttons">
-                <button bindtap='changeToStudy'>共同学习                    </button>
-            </view>
-        </view>
-     </view>
-    <!--约学习 end-->
-     <!--约运动 start-->
-    <view class="activity-sports">
-        <image src='../../images/sports.png'  class="sports-icon"></image>
-    <view style="width:98%;margin: auto">
-        <view class="buttons">
-    <button bindtap='changeToSports'>一起运动</button>
-        </view>
-    </view>
-    </view>
- </view>
-    <!--约运动 end-->
     <!--活动列表 end-->
+</view>
